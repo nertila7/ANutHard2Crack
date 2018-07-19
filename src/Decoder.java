@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Decoder {
@@ -102,38 +103,56 @@ public class Decoder {
 		//   as morseStream holds references onto the lists used within MorseSymbol.)
 
 		
-				ArrayList<Character> chArr = new ArrayList<Character>();
-
-				int i = 0;
+				List<Character> cleanInputStream = new ArrayList<Character>();
+				cleanInputStream.add(inputStream[0]);
+				int i = 1;
+				
 				while (i < inputStream.length ){
+					char c = inputStream[i];
+					cleanInputStream.add(c);
 					
-					chArr.add(inputStream[i]);
 					
-					if (chArr.size() == 2) {
-						
-						if (chArr.get(0) == CYPHER_ON) {
-							if ( chArr.get(1) == CYPHER_OFF  ) 
-								morseSymbol.add(CypherSymbol.SHORT);
-							else if (  chArr.get(1) == CYPHER_ON)  {     							
-								while (inputStream[++i] != CYPHER_OFF);
-								morseSymbol.add(CypherSymbol.LONG);
-							}
-						}
-						else 
-							if ( chArr.get(1) == CYPHER_OFF ) 
-								morseSymbol.add(CypherSymbol.BLANK);
-						
-						chArr.clear();
-						chArr.ensureCapacity(4);
+					if ( (inputStream[i - 1] == CYPHER_ON ) && ( inputStream[i] == CYPHER_OFF) ) {
+						morseSymbol.add(CypherSymbol.SHORT);
+						System.out.print(".");
 					}
 					
+					if ( (inputStream[i - 1] == CYPHER_ON )  &&  ( c == CYPHER_ON) ) {
+						while (inputStream[i] != CYPHER_OFF) i++;
+						morseSymbol.add(CypherSymbol.LONG);
+						System.out.print("-");
+						
+					}
+					else if ( ( inputStream[i - 1] == CYPHER_OFF) && (inputStream[i] == CYPHER_OFF ) && (inputStream[i + 1] == CYPHER_OFF ) ) {
+						while (inputStream[i + 1] != CYPHER_ON) i++;
+						morseSymbol.add(CypherSymbol.BLANK);
+						System.out.println("");
+						i++;
+					}
 					i++;
 				}
+				
+				
 
 				
 			
 
-				
+//				if (chArr.size() % 2 == 0) {
+//					
+//					if ( iterChArr. .la get(0) == CYPHER_ON) {
+//						if ( chArr.get(1) == CYPHER_OFF  ) 
+//							morseSymbol.add(CypherSymbol.SHORT);
+//						else if (  chArr.get(1) == CYPHER_ON)  {     							
+//							while (inputStream[++i] != CYPHER_OFF);
+//							morseSymbol.add(CypherSymbol.LONG);
+//						}
+//					}
+//					else 
+//						if ( chArr.get(1) == CYPHER_OFF ) 
+//							morseSymbol.add(CypherSymbol.BLANK);
+//					
+//					
+//				}
 		
 	
 		
