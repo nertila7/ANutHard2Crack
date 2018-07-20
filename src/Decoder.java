@@ -104,55 +104,73 @@ public class Decoder {
 
 		
 				List<Character> cleanInputStream = new ArrayList<Character>();
-				cleanInputStream.add(inputStream[0]);
+				List<Character> chArr = new ArrayList<Character>();
+				char c = inputStream[0];
+				chArr.add(c);
+				
+				//System.out.print( "0" + c);
 				int i = 1;
 				
 				while (i < inputStream.length ){
-					char c = inputStream[i];
-					cleanInputStream.add(c);
+					c = inputStream[i];
+					//System.out.print(  Integer.toString(i) + c);
+					chArr.add(c);
 					
-					
-					if ( (inputStream[i - 1] == CYPHER_ON ) && ( inputStream[i] == CYPHER_OFF) ) {
-						morseSymbol.add(CypherSymbol.SHORT);
-						System.out.print(".");
-					}
-					
-					if ( (inputStream[i - 1] == CYPHER_ON )  &&  ( c == CYPHER_ON) ) {
-						while (inputStream[i] != CYPHER_OFF) i++;
-						morseSymbol.add(CypherSymbol.LONG);
-						System.out.print("-");
+					if (chArr.size() % 2 == 0) {
 						
-					}
-					else if ( ( inputStream[i - 1] == CYPHER_OFF) && (inputStream[i] == CYPHER_OFF ) && (inputStream[i + 1] == CYPHER_OFF ) ) {
-						while (inputStream[i + 1] != CYPHER_ON) i++;
-						morseSymbol.add(CypherSymbol.BLANK);
-						System.out.println("");
-						i++;
+						if ( chArr.get(0) == CYPHER_ON) {
+							if ( chArr.get(1) == CYPHER_OFF  ) {
+								morseSymbol.add(CypherSymbol.SHORT);
+								System.out.print(".");
+							}
+							else if (  chArr.get(1) == CYPHER_ON)  {     							
+								while (inputStream[++i] == CYPHER_ON);
+								morseSymbol.add(CypherSymbol.LONG);
+								System.out.print("-");
+							}
+						}
+						
+						else {
+							if ( chArr.get(1) == CYPHER_OFF ) {
+								while (inputStream[i + 1] == CYPHER_OFF) {
+									i++;
+									//System.out.print("Skip" + Integer.toString(i));
+								} ;
+								morseSymbol.add(CypherSymbol.BLANK);
+								System.out.println();
+							}
+						}
+						//System.out.println("/");
+						chArr.clear();
 					}
 					i++;
 				}
 				
 				
 
+/*				if ( (inputStream[i - 1] == CYPHER_ON ) && ( inputStream[i] == CYPHER_OFF) ) {
+					morseSymbol.add(CypherSymbol.SHORT);
+					System.out.print(".");
+				}
+				
+				if ( (inputStream[i - 1] == CYPHER_ON )  &&  ( c == CYPHER_ON) ) {
+					while (inputStream[i] != CYPHER_OFF) i++;
+					morseSymbol.add(CypherSymbol.LONG);
+					System.out.print("-");
+					
+				}
+				else if ( ( inputStream[i - 1] == CYPHER_OFF) && (inputStream[i] == CYPHER_OFF ) && (inputStream[i + 1] == CYPHER_OFF ) ) {
+					while (inputStream[i + 1] != CYPHER_ON) i++;
+					morseSymbol.add(CypherSymbol.BLANK);
+					System.out.println("");
+					i++;
+				}*/
+				
+				
 				
 			
 
-//				if (chArr.size() % 2 == 0) {
-//					
-//					if ( iterChArr. .la get(0) == CYPHER_ON) {
-//						if ( chArr.get(1) == CYPHER_OFF  ) 
-//							morseSymbol.add(CypherSymbol.SHORT);
-//						else if (  chArr.get(1) == CYPHER_ON)  {     							
-//							while (inputStream[++i] != CYPHER_OFF);
-//							morseSymbol.add(CypherSymbol.LONG);
-//						}
-//					}
-//					else 
-//						if ( chArr.get(1) == CYPHER_OFF ) 
-//							morseSymbol.add(CypherSymbol.BLANK);
-//					
-//					
-//				}
+
 		
 	
 		
