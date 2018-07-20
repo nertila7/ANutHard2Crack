@@ -27,14 +27,35 @@ public class MorseCharacter {
 		this.morseSymbol = asList;
 	}
 
+	 
+	public MorseCharacter(List<CypherSymbol> morseSymbol) {
+	
+		this.morseSymbol = morseSymbol;
+		this.character = matchMorseSymbol(morseSymbol);
+		
+	}
+	
+	private char matchMorseSymbol( List<CypherSymbol> morseSymbol) {
+		char res = ' ';
+		MorseAlphabet mAlpha = new MorseAlphabet();
+		for(MorseCharacter mChar : mAlpha.getMorseAlphabet()) {
+			if (mChar.equals(this )) 
+				res = mChar.character;
+		}
+		
+		return res;
+	}
+
+	
 	public boolean equals(MorseCharacter other) {
 		/* If two MorseCharacters have the same morseSymbol size and 
 		 * each of their morseSymbols is equal, the MorseCharacters are equal.
 		 */
+		
 		if (this.getMorseSymbol().size() == other.getMorseSymbol().size()) {
 			int size = this.getMorseSymbol().size();
 			for(int i = 0; i < size; i++) {
-				if (this.getMorseSymbol().get(i) != other.getMorseSymbol().get(i)){
+				if ( !this.getMorseSymbol().get(i).toString().equals(other.getMorseSymbol().get(i).toString()) ){
 					return false;
 				}
 			}
